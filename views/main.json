@@ -1,0 +1,21 @@
+{
+	"style": {
+		"background-color": "white",
+		"border": 10
+	},
+
+	"contents": [
+		{
+			"name": "title",
+			"control": "TextView",
+			"label": "BlaastCacheCloudStorage",
+			"style": {
+				"color": "black",
+				"width": "fill-parent",
+				"height": "fill-parent",
+				"align": "center",
+				"valign": "middle"
+			}
+		}
+	]
+}
