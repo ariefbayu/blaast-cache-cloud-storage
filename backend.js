@@ -87,14 +87,22 @@ app.message(function(client, action, param) {
             console.log("kita belum punya cache kata: " + param.istilah);
             http.get("http://bahtera.org/kateglo/api.php?format=json&phrase=" + param.istilah, {
                 ok: function(data) {
-                    var node = JSON.parse(data);
-                    
-                    kirimDefinisi(client, action, node.kateglo.definition);
-                    console.log("berhasil memperoleh informasi definisi dari kateglo: " + node.kateglo.definition.length);
-                    
-                    kateglo.set(param.istilah, node.kateglo);                
-                    kateglo.perluUpdate = true;
-
+                    var node = {};
+                    try {
+                        node = JSON.parse(data);
+                    }
+                    catch (err) {
+                      console.log('Failed to process JSON: ' + err);
+                    }
+                    if(node.kateglo){
+                        kirimDefinisi(client, action, node.kateglo.definition);
+                        console.log("berhasil memperoleh informasi definisi dari kateglo: " + node.kateglo.definition.length);
+                        
+                        kateglo.set(param.istilah, node.kateglo);                
+                        kateglo.perluUpdate = true;
+                    } else {
+                        kirimDefinisi(client, action, [{def_text: "Maaf, tidak berhasil mendapatkan arti kata."}]);
+                    }
                 },
                 error: function(err) {
                     console.log('err: ' + err);
